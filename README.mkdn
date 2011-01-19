@@ -1,6 +1,6 @@
 # Rumi - yet another girl.
 
-Rumi is lightweight web application for me.
+Rumi is lightweight web application framework for me.
 
 ## Usage (not implemented)
 
