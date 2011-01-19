@@ -2,7 +2,10 @@ use inc::Module::Install;
 name 'Rumi';
 all_from 'lib/Rumi.pm';
 
-# requires '';
+requires 'Plack::Request';
+requires 'Router::Simple';
+requires 'File::Spec';
+requires 'Text::Xslate';
 
 tests 't/*.t';
 author_tests 'xt';

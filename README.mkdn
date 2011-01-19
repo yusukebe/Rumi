@@ -1,8 +1,8 @@
-* Rumi - yet another girl.
+# Rumi - yet another girl.
 
 Rumi is lightweight web application for me.
 
-** Usage (not implemented)
+## Usage (not implemented)
 
 in hello.psgi
 
@@ -11,12 +11,12 @@ in hello.psgi
     my $config = File::Spec->catfile( dirname(__FILE__), 'config.pl' );
     Hello::Web->to_app( config => $config );
 
-** Core required modules.
+## Core required modules.
 
 - Plack::Request
 - Router::Simple
 
-** AUTHOR 
+## AUTHOR 
 
 - Yusuke Wada
 - http://yusukebe.com/
