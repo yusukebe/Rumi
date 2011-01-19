@@ -2,7 +2,23 @@
 
 Rumi is lightweight web application for me.
 
+** Usage (not implemented)
+
+in hello.psgi
+
+    use Hello::Web;
+    use File::Spec;
+    my $config = File::Spec->catfile( dirname(__FILE__), 'config.pl' );
+    Hello::Web->to_app( config => $config );
+
+** Core required modules.
+
+- Plack::Request
+- Router::Simple
+
 ** AUTHOR 
 
-Yusuke Wada
+- Yusuke Wada
+- http://yusukebe.com/
+- yusuke@kamawada.com
 

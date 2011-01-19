@@ -1,22 +1,44 @@
 package Rumi;
 use strict;
 use warnings;
+use File::Spec;
+
 our $VERSION = '0.01';
 
+sub new {
+    my $class = shift;
+    my %args = @_ == 1 ? %{ $_[0] } : @_;
+    my $self = bless { %args }, $class;
+    return $self;
+}
+
+sub config {
+    my $class = shift;
+    $class = ref $class || $class;
+    my $name = shift || 'config.pl';
+    my $config = do File::Spec->catfile($name);
+    no strict 'refs';
+    *{"$class\::config"} = sub { $config };
+    return $config;
+}
+
 1;
+
 __END__
 
 =head1 NAME
 
-Rumi -
+Rumi - yet another girl.
 
 =head1 SYNOPSIS
 
-  use Rumi;
+  package MyApp;
+  use prent qw( Rumi );
+  1;
 
 =head1 DESCRIPTION
 
-Rumi is
+Rumi is only my web application framework.
 
 =head1 AUTHOR
 
