@@ -1,0 +1,8 @@
+* Rumi - yet another girl.
+
+Rumi is lightweight web application for me.
+
+** AUTHOR 
+
+Yusuke Wada
+
