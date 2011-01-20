@@ -9,10 +9,11 @@ use Encode ();
 
 sub init {
     my $self = shift;
-    return if $self->{dispatcher} && $self->{view};
+    return if defined $self->{dispatcher} && defined $self->{view};
     $self->{_class} = ref $self;
     $self->{dispatcher} = $self->load_class('Dispatcher');
     $self->{view} = $self->install_view();
+    $self->{model} = $self->install_model();
 }
 
 sub load_class {
@@ -29,8 +30,9 @@ sub to_app {
         my $req = Plack::Request->new( $env );
         my $route = $self->{dispatcher}->_dispatch($req);
         my $controller = $self->load_class( 'Controller::' . $route->{controller} );
+        return $self->res_404() unless $controller;
         my $action = $route->{action};
-        my $c = Rumi::Context->new( req => $req );
+        my $c = Rumi::Context->new( req => $req, model => $self->{model} );
         my @codes = $controller->$action($c);
         if( $codes[0] && $codes[1] ){
             $codes[1]->{base} = $req->base;
@@ -47,6 +49,11 @@ sub to_app {
     };
 }
 
+#XXX
+sub res_404 {
+    return [ 404, ['Content-Type' => 'text/plain'], ['404 not found'] ];
+}
+
 sub render {
     my ( $self, $name, $param ) = @_;
     my $view_name = $param->{view} || 'default';
@@ -56,6 +63,7 @@ sub render {
     return $html;
 }
 
-sub install_view { die "This is abstract method: install_view" }
+sub install_view  { die "This is abstract method: install_view" }
+sub install_model { die "This is abstract method: install_model" }
 
 1;

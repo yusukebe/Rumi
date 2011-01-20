@@ -12,4 +12,9 @@ sub req {
     return shift->{req};
 }
 
+sub model {
+    my ( $self, $name ) = @_;
+    return $self->{model}{$name};
+}
+
 1;
