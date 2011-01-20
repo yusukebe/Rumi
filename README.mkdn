@@ -15,6 +15,13 @@ in hello.psgi
 
 - Plack::Request
 - Router::Simple
+- (Text::Xslate)
+
+## TODO
+
+- Writing tests
+- Setup script
+- Session
 
 ## AUTHOR 
 

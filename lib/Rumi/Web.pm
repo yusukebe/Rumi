@@ -2,9 +2,10 @@ package Rumi::Web;
 use strict;
 use warnings;
 use Rumi::Context;
-use Rumi::Util qw();
+use Rumi::Util ();
 use Plack::Request;
 use Carp qw( croak );
+use Encode ();
 
 sub init {
     my $self = shift;
@@ -50,7 +51,9 @@ sub render {
     my ( $self, $name, $param ) = @_;
     my $view_name = $param->{view} || 'default';
     my $method = $self->{view}->{$view_name}->{method} || 'render' ;
-    return $self->{view}->{$view_name}->{class}->$method( $name, $param );
+    my $html = $self->{view}->{$view_name}->{class}->$method( $name, $param );
+    $html = Encode::encode_utf8( $html );
+    return $html;
 }
 
 sub install_view { die "This is abstract method: install_view" }
