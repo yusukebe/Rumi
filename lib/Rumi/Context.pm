@@ -17,4 +17,8 @@ sub model {
     return $self->{model}{$name};
 }
 
+sub route {
+    return shift->{route};
+}
+
 1;
