@@ -2,9 +2,9 @@ package Rumi::Web;
 use strict;
 use warnings;
 use Rumi::Context;
+use Rumi::Web::Request;
 use Rumi::Util ();
-use Plack::Request;
-use Carp qw( croak );
+use Carp qw/croak/;
 use Encode ();
 
 sub init {
@@ -27,7 +27,7 @@ sub to_app {
     $self->init();
     return sub {
         my ($env) = @_;
-        my $req = Plack::Request->new( $env );
+        my $req = Rumi::Web::Request->new( $env );
         my $route = $self->{dispatcher}->_dispatch($req);
         return $self->res_404() unless $route->{controller};
         my $controller = $self->load_class( 'Controller::' . $route->{controller} );
