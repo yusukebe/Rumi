@@ -32,7 +32,12 @@ sub to_app {
         return $self->res_404() unless $route->{controller};
         my $controller = $self->load_class( 'Controller::' . $route->{controller} );
         my $action = $route->{action};
-        my $c = Rumi::Context->new( req => $req, model => $self->{model}, route => $route );
+        my $c = Rumi::Context->new(
+            render_view => sub { $self->render(@_) },
+            req   => $req,
+            model => $self->{model},
+            route => $route
+        );
         my @codes = $controller->$action($c);
         if( $codes[0] && $codes[1] ){
             $codes[1]->{base} = $req->base;
@@ -45,6 +50,8 @@ sub to_app {
                 ],
                 [$html]
             ];
+        }elsif( ref $codes[0] eq 'ARRAY' ){
+            return $codes[0];
         }
     };
 }

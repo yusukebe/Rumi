@@ -21,4 +21,11 @@ sub route {
     return shift->{route};
 }
 
+sub render {
+    my $self = shift;
+    my ($name, $param) = @_;
+    $param->{base} = $self->req->base;
+    return $self->{render_view}($name, $param);
+}
+
 1;
