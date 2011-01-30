@@ -7,9 +7,16 @@ use Rumi::Util ();
 use Carp qw/croak/;
 use Encode ();
 
+sub new {
+    my $class = shift;
+    my %args = @_ == 1 ? %{ $_[0] } : @_;
+    my $self = bless { %args }, $class;
+    $self->init();
+    return $self;
+}
+
 sub init {
     my $self = shift;
-    return if defined $self->{dispatcher} && defined $self->{view};
     $self->{_class} = ref $self;
     $self->{dispatcher} = $self->load_class('Dispatcher');
     $self->{view} = $self->install_view();
@@ -24,7 +31,6 @@ sub load_class {
 
 sub to_app {
     my $self = shift;
-    $self->init();
     return sub {
         my ($env) = @_;
         my $req = Rumi::Web::Request->new( $env );
@@ -64,13 +70,13 @@ sub res_404 {
 sub render {
     my ( $self, $name, $param ) = @_;
     my $view_name = $param->{view} || 'default';
-    my $method = $self->{view}->{$view_name}->{method} || 'render' ;
-    my $html = $self->{view}->{$view_name}->{class}->$method( $name, $param );
+    my $method = 'render'; #XXX;
+    my $html = $self->{view}->{$view_name}->$method( $name, $param );
     $html = Encode::encode_utf8( $html );
     return $html;
 }
 
 sub install_view  { die "This is abstract method: install_view" }
-sub install_model { die "This is abstract method: install_model" }
+sub install_model { }
 
 1;

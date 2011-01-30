@@ -2,14 +2,59 @@
 
 Rumi is lightweight web application framework for me.
 
-## Usage (not implemented)
+## Example
 
-in hello.psgi
+### myapp.psgi
 
-    use Hello::Web;
-    use File::Spec;
-    my $config = File::Spec->catfile( dirname(__FILE__), 'config.pl' );
-    Hello::Web->to_app( config => $config );
+    use MyApp::Web;
+    use Plack::Builder;
+
+    my $web = MyApp::Web->new;
+    my $app = $web->to_app();
+
+    builder {
+        enable "Plack::Middleware::Static",
+          path => qr{^/(favicon\.ico|images/|js/|css/)},
+          root => './htdocs/';
+        enable_if { $_[0]->{REMOTE_ADDR} eq '127.0.0.1' }
+        "Plack::Middleware::ReverseProxy";
+        enable "Plack::Middleware::AccessLog", format => "combined";
+        $app;
+    };
+
+### MyApp/Web.pm
+
+    package MyApp::Web;
+    use parent qw/Rumi::Web/;
+    use Text::Xslate;
+    sub install_view {
+        my $view = Text::Xslate->new(
+            path => ['./tmpl'],
+            header => ['header.tt2'],
+            footer => ['footer.tt2'],
+            syntax => 'TTerse',
+        );
+        return { default => $view };
+    }
+    1;
+
+### MyApp/Web/Dispatcher.pm
+
+    package MyApp::Web::Dispatcher;
+    use strict;
+    use warnings;
+    use Rumi::Web::Dispatcher;
+    connect '/' => { controller => 'Root', action => 'index' };
+    1;
+
+### MyApp/Web/Controller/Root.pm
+
+    package MyApp::Web::Controller::Root;
+    sub index {
+        my ( $self, $c ) = @_;
+        return 'index.tt2', {};
+    }
+    1;
 
 ## Core required modules.
 
