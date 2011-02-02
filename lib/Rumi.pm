@@ -3,25 +3,7 @@ use strict;
 use warnings;
 use File::Spec;
 
-our $VERSION = '0.011';
-
-# XXX
-# sub new {
-#     my $class = shift;
-#     my %args = @_ == 1 ? %{ $_[0] } : @_;
-#     my $self = bless { %args }, $class;
-#     return $self;
-# }
-
-# sub config {
-#     my $class = shift;
-#     $class = ref $class || $class;
-#     my $name = shift || 'config.pl';
-#     my $config = do File::Spec->catfile($name);
-#     no strict 'refs';
-#     *{"$class\::config"} = sub { $config };
-#     return $config;
-# }
+our $VERSION = '0.012';
 
 1;
 

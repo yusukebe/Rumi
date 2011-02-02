@@ -6,6 +6,7 @@ requires 'Plack::Request';
 requires 'Router::Simple';
 requires 'File::Spec';
 requires 'Text::Xslate';
+requires 'Data::Recursive::Encode';
 
 tests 't/*.t';
 author_tests 'xt';

@@ -6,6 +6,7 @@ use Rumi::Web::Request;
 use Rumi::Util ();
 use Carp qw/croak/;
 use Encode ();
+use Data::Recursive::Encode;
 
 sub new {
     my $class = shift;
@@ -71,6 +72,7 @@ sub render {
     my ( $self, $name, $param ) = @_;
     my $view_name = $param->{view} || 'default';
     my $method = 'render'; #XXX;
+    $param = Data::Recursive::Encode->decode_utf8( $param );
     my $html = $self->{view}->{$view_name}->$method( $name, $param );
     $html = Encode::encode_utf8( $html );
     return $html;
