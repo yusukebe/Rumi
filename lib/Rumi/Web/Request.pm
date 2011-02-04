@@ -15,7 +15,11 @@ sub uri_with {
         }
     }
     for my $key ( keys %args ){
-        $params->{$key} = $args{$key};
+        if( defined $args{$key} ){
+            $params->{$key} = $args{$key};
+        }else{
+            delete $params->{$key};
+        }
     }
     my $uri = $self->uri->clone;
     $uri->query_form($params);
