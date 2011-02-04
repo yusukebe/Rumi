@@ -32,7 +32,7 @@ sub return_404 {
     my ( $self, $name, $param ) = @_;
     my $html = $self->render( $name, $param );
     return [
-        200,
+        404,
         [
             'Content-Type'   => 'text/html; charset=UTF-8',
             'Content-Length' => length $html
