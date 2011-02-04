@@ -36,11 +36,13 @@ sub to_app {
         my ($env) = @_;
         my $req = Rumi::Web::Request->new( $env );
         my $route = $self->{dispatcher}->_dispatch($req);
+        my $code = 200;
         unless ( $route->{controller} ){
             my $router = $self->{dispatcher}->_router;
             my ($p) = grep { $_->pattern eq '/404' } @{ $router->{routes} };
             return $self->res_404 unless $p;
             $route = $p->{dest};
+            $code = 404;
         }
         my $controller = $self->load_class( 'Controller::' . $route->{controller} );
         my $action = $route->{action};
@@ -56,7 +58,7 @@ sub to_app {
             $codes[1]->{base} = $req->base;
             my $html = $self->render(@codes);
             return [
-                200,
+                $code,
                 [
                     'Content-Type'   => 'text/html; charset=UTF-8',
                     'Content-Length' => length $html
