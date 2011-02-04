@@ -15,6 +15,11 @@ sub import {
         $router->connect(@_);
     };
     *{"$caller\::_dispatch"} = \&_dispatch;
+    *{"$caller\::_router"} = \&_router;
+}
+
+sub _router {
+    return $router;
 }
 
 sub _dispatch {
