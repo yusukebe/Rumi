@@ -8,21 +8,14 @@ sub new {
     bless { %args }, $class;
 }
 
-sub req {
-    return shift->{req};
-}
+sub req     { return shift->{req} }
+sub route   { return shift->{route} }
+sub config  { return shift->{config} }
+sub session { return shift->{req}->session }
 
 sub model {
     my ( $self, $name ) = @_;
     return $self->{model}{$name};
-}
-
-sub route {
-    return shift->{route};
-}
-
-sub session {
-    return shift->{req}->session;
 }
 
 sub render {

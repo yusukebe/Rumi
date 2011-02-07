@@ -16,12 +16,19 @@ sub new {
     return $self;
 }
 
+sub load_config {
+    my ( $self, $filename ) = @_;
+    my $config = do $filename or die "Cannot load configuration file: $filename";
+    return $config;
+}
+
 sub init {
     my $self = shift;
     $self->{_class} = ref $self;
+    $self->{config} = $self->load_config( $self->{config} ) if defined $self->{config};
     $self->{dispatcher} = $self->load_class('Dispatcher');
-    $self->{view} = $self->install_view();
-    $self->{model} = $self->install_model();
+    $self->{view}       = $self->install_view();
+    $self->{model}      = $self->install_model();
 }
 
 sub load_class {
@@ -51,7 +58,8 @@ sub to_app {
             render_view => sub { $self->render(@_) },
             req   => $req,
             model => $self->{model},
-            route => $route
+            route => $route,
+            config => $self->{config}
         );
         my @codes = $controller->$action($c);
         if( $codes[0] && $codes[1] ){
