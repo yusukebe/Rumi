@@ -1,4 +1,5 @@
 package Rumi::Web;
+use parent qw/Rumi/;
 use strict;
 use warnings;
 use Rumi::Context;
@@ -16,16 +17,9 @@ sub new {
     return $self;
 }
 
-sub load_config {
-    my ( $self, $filename ) = @_;
-    my $config = do $filename or die "Cannot load configuration file: $filename";
-    return $config;
-}
-
 sub init {
     my $self = shift;
     $self->{_class} = ref $self;
-    $self->{config} = $self->load_config( $self->{config} ) if defined $self->{config};
     $self->{dispatcher} = $self->load_class('Dispatcher');
     $self->{view}       = $self->install_view();
     $self->{model}      = $self->install_model();

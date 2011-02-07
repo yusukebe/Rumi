@@ -1,9 +1,16 @@
 package Rumi;
 use strict;
 use warnings;
-use File::Spec;
 
 our $VERSION = '0.015';
+
+sub load_config {
+    my $class    = shift;
+    my $filename = shift;
+    my $config   = do $filename
+      or die "Cannot load configuration file: $filename";
+    return $config;
+}
 
 1;
 
