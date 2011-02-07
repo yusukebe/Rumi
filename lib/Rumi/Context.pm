@@ -45,4 +45,9 @@ sub return_404 {
     ];
 }
 
+sub redirect {
+    my ( $self, $url ) = @_;
+    return [ 302, [ 'Location' => $url ], [] ];
+}
+
 1;
