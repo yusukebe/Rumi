@@ -1,5 +1,4 @@
 package Rumi::Web;
-use parent qw/Rumi/;
 use strict;
 use warnings;
 use Rumi::Context;
