@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use File::Spec;
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 1;
 
