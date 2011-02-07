@@ -21,6 +21,10 @@ sub route {
     return shift->{route};
 }
 
+sub session {
+    return shift->{req}->session;
+}
+
 sub render {
     my $self = shift;
     my ($name, $param) = @_;
