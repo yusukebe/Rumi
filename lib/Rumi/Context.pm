@@ -27,6 +27,8 @@ sub render {
 
 sub return_404 {
     my ( $self, $name, $param ) = @_;
+    return [ 404, [ 'Content-Type' => 'text/plain' ], ['404 Not Found'] ]
+      unless $name || $param;
     my $html = $self->render( $name, $param );
     return [
         404,
