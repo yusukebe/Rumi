@@ -1,9 +1,10 @@
 package Rumi::Web;
 use strict;
 use warnings;
+use Rumi::Util ();
+use Rumi::Trigger qw/add_trigger call_trigger get_trigger_code/;
 use Rumi::Context;
 use Rumi::Web::Request;
-use Rumi::Util ();
 use Carp qw/croak/;
 use Encode ();
 use Data::Recursive::Encode;
@@ -83,11 +84,20 @@ sub render {
     my $method = 'render'; #XXX;
     $param = Data::Recursive::Encode->decode_utf8( $param );
     my $html = $self->{view}->{$view_name}->$method( $name, $param );
+    for my $code ( $self->get_trigger_code('HTML_FILTER') ) {
+        $html = $code->( $self, $html );
+    }
     $html = Encode::encode_utf8( $html );
     return $html;
 }
 
 sub install_view  { die "This is abstract method: install_view" }
 sub install_model { }
+
+sub load_plugin {
+    my ($class, $module) = @_;
+    $module = Rumi::Util::load_class( 'Rumi::Web::Plugin::' . $module );
+    $module->init($class);
+}
 
 1;
