@@ -25,6 +25,9 @@ Rumi is lightweight web application framework for me.
 ### MyApp/Web.pm
 
     package MyApp::Web;
+    use strict;
+    use warnings;
+
     use parent qw/Rumi::Web/;
     use Text::Xslate;
     sub install_view {
