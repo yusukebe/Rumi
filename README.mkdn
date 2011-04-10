@@ -6,6 +6,7 @@ Rumi is lightweight web application framework for me.
 
 ### myapp.psgi
 
+    use lib ("./lib");
     use MyApp::Web;
     use Plack::Builder;
 
@@ -39,6 +40,7 @@ Rumi is lightweight web application framework for me.
         );
         return { default => $view };
     }
+
     1;
 
 ### MyApp/Web/Dispatcher.pm
@@ -46,17 +48,23 @@ Rumi is lightweight web application framework for me.
     package MyApp::Web::Dispatcher;
     use strict;
     use warnings;
+
     use Rumi::Web::Dispatcher;
     connect '/' => { controller => 'Root', action => 'index' };
+
     1;
 
 ### MyApp/Web/Controller/Root.pm
 
     package MyApp::Web::Controller::Root;
+    use strict;
+    use warnings;
+
     sub index {
         my ( $self, $c ) = @_;
         return 'index.tt2', {};
     }
+
     1;
 
 ## Core required modules.
