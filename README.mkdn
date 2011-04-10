@@ -6,7 +6,7 @@ Rumi is lightweight web application framework for me.
 
 ### myapp.psgi
 
-    use lib ("./lib");
+    use lib "./lib";
     use MyApp::Web;
     use Plack::Builder;
 
